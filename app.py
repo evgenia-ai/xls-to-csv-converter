@@ -57,6 +57,22 @@ if uploaded_file:
         uploaded_file.seek(0)
         df = pd.read_csv(uploaded_file, sep=sep)
 
+# ---- CSV FILES ----
+    elif file_name.endswith(".csv"):
+        content = uploaded_file.read().decode("utf-8")
+
+        if ";" in content:
+            sep = ";"
+        elif "\t" in content:
+            sep = "\t"
+        elif "," in content:
+            sep = ","
+        else:
+            sep = ","
+
+        uploaded_file.seek(0)
+        df = pd.read_csv(uploaded_file, sep=sep)
+    
     # ---- WORD FILES ----
     elif file_name.endswith((".doc", ".docx")):
         df = read_word_file(uploaded_file)
@@ -76,3 +92,4 @@ if uploaded_file:
                            .replace(".docx", ".csv"),
         mime="text/csv",
     )
+
